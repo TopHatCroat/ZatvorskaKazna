@@ -7,6 +7,9 @@ import android.database.SQLException;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tophatcroat.zatvorskakazna.R;
@@ -20,9 +23,6 @@ import java.util.Random;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * Created by antonio on 30/08/15.
- */
 public class SuggestionActivity extends Activity {
 
     private String TAG = "Suggestion Activity: ";
@@ -34,14 +34,10 @@ public class SuggestionActivity extends Activity {
     int totalTime;
     Random random;
 
-
-
     @Bind(R.id.law_tv_suggestion)
     TextView lawTVSuggestion;
-
     @Bind(R.id.suggestion_tv)
     TextView suggestionTV;
-
 
     @Override
     public Intent getIntent() {
@@ -70,7 +66,24 @@ public class SuggestionActivity extends Activity {
             e.printStackTrace();
         }
 
-        law = (LawsModel) getIntent().getParcelableExtra("Law");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            dbSource.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillData(){
+        LinearLayout item = (LinearLayout)findViewById(R.id.suggestion_card_view);
+        View child = getLayoutInflater().inflate(R.layout.suggestion_activity, null);
+
+        law = getIntent().getParcelableExtra("Law");
         lawTVSuggestion.setText(Integer.toString(law.getSentence()));
 
         numOfRows = (int) dbSource.getSuggestionCount();
@@ -91,15 +104,7 @@ public class SuggestionActivity extends Activity {
         }
         else Log.e(TAG, "no suggestions found");
 
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try {
-            dbSource.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        item.addView(child);
     }
 }

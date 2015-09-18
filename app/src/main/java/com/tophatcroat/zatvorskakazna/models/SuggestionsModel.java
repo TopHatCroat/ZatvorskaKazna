@@ -1,20 +1,31 @@
 package com.tophatcroat.zatvorskakazna.models;
 
+import android.content.Context;
+import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-/**
- * Created by antonio on 11/09/15.
- */
+import com.tophatcroat.zatvorskakazna.R;
+import com.tophatcroat.zatvorskakazna.ui.SuggestionActivity;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+
 public class SuggestionsModel implements Parcelable {
     int id;
     String suggestion;
     int time;
+    int image;
 
-    public SuggestionsModel(int id, String suggestion, int time){
+
+    public SuggestionsModel(Context parent, int id, String suggestion, int time, String image){
         this.id = id;
         this.suggestion = suggestion;
         this.time = time;
+        this.image = parent.getResources().getIdentifier(image, null, parent.getPackageName());
     }
 
     protected void LawsModel(Parcel in){

@@ -1,8 +1,5 @@
 package com.tophatcroat.zatvorskakazna.db;
 
-/**
- * Created by antonio on 26/08/15.
- */
 public class Database {
     public Database(){}
 
@@ -35,22 +32,24 @@ public class Database {
         public final static String COLUMN_ID = "id";
         public final static String COLUMN_SUGGESTION = "suggestion";
         public final static String COLUMN_TIME = "time";
+        public final static String COLUMN_IMAGE = "image";
 
         public final static String CREATE = "CREATE TABLE " + TABLE_NAME + " ("+
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 COLUMN_SUGGESTION + " TEXT NOT NULL, " +
                 COLUMN_TIME + " INTEGER NOT NULL " +
+                COLUMN_IMAGE + " TEXT NOT NULL" +
                 ");";
 
         public final static String INSERT_SUGGESTIONS = "INSERT INTO " + TABLE_NAME + "(" + COLUMN_SUGGESTION + ", " + COLUMN_TIME + ")" +
-                " SELECT " + "'Neka pizdarija'" + " AS " + COLUMN_SUGGESTION + ", " + "'3'" + " AS " + COLUMN_TIME +
-                " UNION SELECT " + "'Ferrari', " + "'36'" +
-                " UNION SELECT " + "'Putovanje u Ameriku', " + "'6'" +
-                " UNION SELECT " + "'Stan', " + "'60'" +
-                " UNION SELECT " + "'Novac', " + "'1'" +
-                " UNION SELECT " + "'iPhonček', " + "'2'" +
-                " UNION SELECT " + "'Putovanje u Kinu', " + "'6'" +
-                " UNION SELECT " + "'Sat kao u Sanadera', " + "'12'"
+                " SELECT " + "'Neka pizdarija'" + " AS " + COLUMN_SUGGESTION + ", " + "'3'" + " AS " + COLUMN_TIME + ", " + "'drawable/car'" + " AS " + COLUMN_IMAGE +
+                " UNION SELECT " + "'Ferrari', " + "'36', " + "'drawable/car'" +
+                " UNION SELECT " + "'Putovanje u Ameriku', " + "'6', " + "'drawable/america'" +
+                " UNION SELECT " + "'Stan', " + "'60', " + "'drawable/apartment'" +
+                " UNION SELECT " + "'Novac', " + "'1', " + "'drawable/money'" +
+                " UNION SELECT " + "'iPhonček', " + "'2', " + "'drawable/phone'" +
+                " UNION SELECT " + "'Putovanje u Kinu', " + "'6', " + "'drawable/china'" +
+                " UNION SELECT " + "'Sat kao u Sanadera', " + "'12', " + "'drawable/watch'"
                 ;
     }
 }
