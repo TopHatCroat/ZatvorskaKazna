@@ -28,10 +28,30 @@ public class SuggestionsModel implements Parcelable {
         this.image = parent.getResources().getIdentifier(image, null, parent.getPackageName());
     }
 
+    protected SuggestionsModel(Parcel in) {
+        id = in.readInt();
+        suggestion = in.readString();
+        time = in.readInt();
+        image = in.readInt();
+    }
+
+    public static final Creator<SuggestionsModel> CREATOR = new Creator<SuggestionsModel>() {
+        @Override
+        public SuggestionsModel createFromParcel(Parcel in) {
+            return new SuggestionsModel(in);
+        }
+
+        @Override
+        public SuggestionsModel[] newArray(int size) {
+            return new SuggestionsModel[size];
+        }
+    };
+
     protected void LawsModel(Parcel in){
         this.id = in.readInt();
         this.suggestion = in.readString();
         this.time = in.readInt();
+        this.image = in.readInt();
     }
     @Override
     public int describeContents() {
@@ -43,5 +63,6 @@ public class SuggestionsModel implements Parcelable {
         dest.writeInt(id);
         dest.writeString(suggestion);
         dest.writeInt(time);
+        dest.writeInt(image);
     }
 }
