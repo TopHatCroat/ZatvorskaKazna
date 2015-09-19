@@ -37,11 +37,11 @@ public class Database {
         public final static String CREATE = "CREATE TABLE " + TABLE_NAME + " ("+
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 COLUMN_SUGGESTION + " TEXT NOT NULL, " +
-                COLUMN_TIME + " INTEGER NOT NULL " +
+                COLUMN_TIME + " INTEGER NOT NULL, " +
                 COLUMN_IMAGE + " TEXT NOT NULL" +
                 ");";
 
-        public final static String INSERT_SUGGESTIONS = "INSERT INTO " + TABLE_NAME + "(" + COLUMN_SUGGESTION + ", " + COLUMN_TIME + ")" +
+        public final static String INSERT_SUGGESTIONS = "INSERT INTO " + TABLE_NAME + "(" + COLUMN_SUGGESTION + ", " + COLUMN_TIME + ", " + COLUMN_IMAGE + ")" +
                 " SELECT " + "'Neka pizdarija'" + " AS " + COLUMN_SUGGESTION + ", " + "'3'" + " AS " + COLUMN_TIME + ", " + "'drawable/car'" + " AS " + COLUMN_IMAGE +
                 " UNION SELECT " + "'Ferrari', " + "'36', " + "'drawable/car'" +
                 " UNION SELECT " + "'Putovanje u Ameriku', " + "'6', " + "'drawable/america'" +

@@ -1,6 +1,5 @@
 package com.tophatcroat.zatvorskakazna.models;
 
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import com.tophatcroat.zatvorskakazna.R;
 
 import java.util.List;
 
-public class SuggestionCardAdapter extends RecyclerView.Adapter<SuggestionCardAdapter.ContactViewHolder> {
+public class SuggestionCardAdapter extends RecyclerView.Adapter<SuggestionCardAdapter.suggestionViewHolder> {
 
     private List<SuggestionsModel> suggestions;
 
@@ -26,27 +25,27 @@ public class SuggestionCardAdapter extends RecyclerView.Adapter<SuggestionCardAd
     }
 
     @Override
-    public ContactViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public suggestionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.from(viewGroup.getContext()).
                 inflate(R.layout.suggestion_card, viewGroup, false);
 
-        return new ContactViewHolder(itemView);
+        return new suggestionViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(ContactViewHolder contactViewHolder, int i) {
+    public void onBindViewHolder(suggestionViewHolder contactViewHolder, int i) {
         SuggestionsModel suggestionModel = suggestions.get(i);
         contactViewHolder.suggestion_card_title.setText(suggestionModel.suggestion);
-        contactViewHolder.suggestionCardDescription.setText(suggestionModel.time);
+        contactViewHolder.suggestionCardDescription.setText(Integer.toString(suggestionModel.time));
         contactViewHolder.suggestionIv.setImageResource(suggestionModel.image);
     }
 
-    public static class ContactViewHolder extends RecyclerView.ViewHolder {
+    public static class suggestionViewHolder extends RecyclerView.ViewHolder {
         protected TextView suggestionCardDescription;
         protected TextView suggestion_card_title;
         protected ImageView suggestionIv;
 
-        public ContactViewHolder(View v) {
+        public suggestionViewHolder(View v) {
             super(v);
             suggestionCardDescription = (TextView) v.findViewById(R.id.suggestion_card_description);
             suggestion_card_title = (TextView) v.findViewById(R.id.suggestion_card_title);

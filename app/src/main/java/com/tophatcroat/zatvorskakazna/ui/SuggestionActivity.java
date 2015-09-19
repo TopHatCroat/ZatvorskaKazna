@@ -120,6 +120,8 @@ public class SuggestionActivity extends Activity {
             int b = cursor.getColumnIndex(Database.suggestionTable.COLUMN_TIME);
             int c = cursor.getColumnIndex(Database.suggestionTable.COLUMN_IMAGE);
 
+            System.out.println(a + "  " + b + "   " + c);
+
             suggestionSource = cursor.getString(a);
             timeSource = cursor.getInt(b);
             totalTime = law.getSentence() / timeSource;

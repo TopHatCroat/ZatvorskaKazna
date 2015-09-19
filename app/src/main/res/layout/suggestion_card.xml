@@ -13,12 +13,14 @@
         android:id="@+id/suggestion_iv"
         android:scaleType="centerCrop">
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:id="@+id/suggestion_card_title"
-        />
+
     </ImageView>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:id="@+id/suggestion_card_title"
+        />
 
     <TextView
         android:layout_width="fill_parent"

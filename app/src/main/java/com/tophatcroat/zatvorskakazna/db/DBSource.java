@@ -46,7 +46,7 @@ public class DBSource {
         String whereClause = Database.suggestionTable.COLUMN_ID + " = ?";
         Cursor cursor = sqLiteDatabase.query(
                 Database.suggestionTable.TABLE_NAME,
-                new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_TIME},
+                new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_TIME, Database.suggestionTable.COLUMN_IMAGE},
                 whereClause,
                 new String[] {Integer.toString(id)},
                 null, null, null);
