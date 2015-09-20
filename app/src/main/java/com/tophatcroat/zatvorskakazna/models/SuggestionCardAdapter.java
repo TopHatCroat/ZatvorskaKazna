@@ -35,8 +35,8 @@ public class SuggestionCardAdapter extends RecyclerView.Adapter<SuggestionCardAd
     @Override
     public void onBindViewHolder(suggestionViewHolder suggestionViewHolder, int i) {
         SuggestionsModel suggestionModel = suggestions.get(i);
-        suggestionViewHolder.suggestion_card_title.setText(suggestionModel.suggestion);
-        suggestionViewHolder.suggestionCardDescription.setText(Integer.toString(suggestionModel.time));
+        suggestionViewHolder.suggestion_card_title.setText("NAŠ PRIJEDLOG");
+        suggestionViewHolder.suggestionCardDescription.setText(suggestionModel.suggestion);
         suggestionViewHolder.suggestionIv.setImageResource(suggestionModel.image);
     }
 

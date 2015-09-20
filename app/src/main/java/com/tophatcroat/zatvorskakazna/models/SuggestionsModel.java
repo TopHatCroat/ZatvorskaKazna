@@ -19,6 +19,7 @@ public class SuggestionsModel implements Parcelable {
     String suggestion;
     int time;
     int image;
+    int amount;
 
 
     public SuggestionsModel(Context parent, int id, String suggestion, int time, String image){
@@ -26,6 +27,20 @@ public class SuggestionsModel implements Parcelable {
         this.suggestion = suggestion;
         this.time = time;
         this.image = parent.getResources().getIdentifier(image, null, parent.getPackageName());
+    }
+
+    public SuggestionsModel(Context parent, int id, String suggestion, int time, int amount, String image){
+        this.id = id;
+        this.suggestion = generateSuggestion(suggestion, amount);
+        this.amount = amount;
+        this.time = time;
+        this.image = parent.getResources().getIdentifier(image, null, parent.getPackageName());
+    }
+
+    private String generateSuggestion(String suggestion, int amount) {
+        String s;
+        return "Vrijeme koje bi proveli u pritvoru dovoljno je da si prosječan Hrvat plati " +
+                suggestion + ", " + amount + " puta!" + "\nIskoristite svoje vrijeme za nešto bolje.";
     }
 
     public SuggestionsModel(Context parent, int value){

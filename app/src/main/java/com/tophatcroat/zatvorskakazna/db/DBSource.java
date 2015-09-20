@@ -55,14 +55,21 @@ public class DBSource {
     }
 
     public Cursor getSuggestionByValue(int value){
+        System.out.println("Value: " + value);
         String whereClause = Database.suggestionTable.COLUMN_VALUE + " < ?";
         Cursor cursor = sqLiteDatabase.query(
                 Database.suggestionTable.TABLE_NAME,
                 new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_VALUE, Database.suggestionTable.COLUMN_IMAGE},
                 whereClause,
                 new String[] {Integer.toString(value)},
-                null, null, null);
+                null,
+                null,
+                "RANDOM() LIMIT 1");
 
+
+        System.out.println(cursor.getString(0));
+        System.out.println(cursor.getInt(1));
+        System.out.println(cursor.getString(2));
         return cursor;
     }
 

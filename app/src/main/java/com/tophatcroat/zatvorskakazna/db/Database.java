@@ -16,14 +16,14 @@ public class Database {
                 ");";
 
         public final static String INSERT_LAWS = "INSERT INTO " + TABLE_NAME + "(" + COLUMN_LAW + ", " + COLUMN_SENTENCE + ")" +
-                " SELECT " + "'Obijesna vožnja u cestovnom prometu'" + " AS " + COLUMN_LAW + ", " + "'3'" + " AS " + COLUMN_SENTENCE +
-                " UNION SELECT " + "'Krađa', " + "'5'" +
-                " UNION SELECT " + "'Neovlaštena proizvodnja droge', " + "'12'" +
-                " UNION SELECT " + "'Neovlašten promet drogama', " + "'15'" +
-                " UNION SELECT " + "'Omogućavanje trošenja droga', " + "'5'" +
-                " UNION SELECT " + "'Onečišćenje okoliša', " + "'5'" +
-                " UNION SELECT " + "'Ubijanje ili mučenje životinja', " + "'1'" +
-                " UNION SELECT " + "'Zlouporaba radioaktivnih tvari', " + "'5'"
+                " SELECT " + "'Obijesna vožnja u cestovnom prometu'" + " AS " + COLUMN_LAW + ", " + "'36'" + " AS " + COLUMN_SENTENCE +
+                " UNION SELECT " + "'Krađa', " + "'60'" +
+                " UNION SELECT " + "'Neovlaštena proizvodnja droge', " + "'144'" +
+                " UNION SELECT " + "'Neovlašten promet drogama', " + "'180'" +
+                " UNION SELECT " + "'Omogućavanje trošenja droga', " + "'60'" +
+                " UNION SELECT " + "'Onečišćenje okoliša', " + "'60'" +
+                " UNION SELECT " + "'Ubijanje ili mučenje životinja', " + "'12'" +
+                " UNION SELECT " + "'Zlouporaba radioaktivnih tvari', " + "'60'"
                 ;
     }
 

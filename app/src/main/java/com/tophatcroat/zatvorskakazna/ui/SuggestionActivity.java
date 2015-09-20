@@ -1,8 +1,11 @@
 package com.tophatcroat.zatvorskakazna.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -33,6 +36,8 @@ import butterknife.ButterKnife;
  */
 public class SuggestionActivity extends Activity {
 
+    private static final String PREFERENCES_NAME = "prefs";
+    private static final String AVERAGE_PAY_PREF = "averagePay";
     private String TAG = "Suggestion Activity: ";
     private LawsModel law;
     private DBSource dbSource;
@@ -40,9 +45,10 @@ public class SuggestionActivity extends Activity {
     int randomRow;
     int timeSource;
     int totalTime;
+    int averagePayNum;
     String suggestionSource;
     String imageSource;
-
+    SharedPreferences sharedPreferences;
 
     Random random;
 
@@ -62,8 +68,16 @@ public class SuggestionActivity extends Activity {
         setContentView(R.layout.suggestion_activity);
         ButterKnife.bind(this);
 
-        dbSource = new DBSource(this);
+        sharedPreferences = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+        if(!sharedPreferences.contains(AVERAGE_PAY_PREF)){
+            //SharedPreferences.Editor editor = sharedPreferences.edit(); //use either "editor" or like bellow
+            sharedPreferences.edit().putInt(AVERAGE_PAY_PREF, 5800);
+            sharedPreferences.edit().commit();
+        }
 
+        averagePayNum = sharedPreferences.getInt(AVERAGE_PAY_PREF, 5800);
+
+        dbSource = new DBSource(this);
         random = new Random();
 
 
@@ -110,22 +124,34 @@ public class SuggestionActivity extends Activity {
         law = (LawsModel) getIntent().getParcelableExtra("Law");
         lawTVSuggestion.setText(Integer.toString(law.getSentence()));
 
-        numOfRows = (int) dbSource.getSuggestionCount();
-        randomRow = random.nextInt(numOfRows);
-        Cursor cursor = dbSource.getSuggestionById(randomRow);
-        cursor.moveToFirst();
+//        numOfRows = (int) dbSource.getSuggestionCount();
+//        randomRow = random.nextInt(numOfRows);
+//        Cursor cursor = dbSource.getSuggestionById(randomRow);
+//        cursor.moveToFirst();
+
+        Cursor cursor = dbSource.getSuggestionByValue(law.getSentence()*averagePayNum); //multiply sentence num. of months with average pay
 
         if(cursor.getCount() == 1) {
-            int a = cursor.getColumnIndex(Database.suggestionTable.COLUMN_SUGGESTION);
-            int b = cursor.getColumnIndex(Database.suggestionTable.COLUMN_VALUE);
-            int c = cursor.getColumnIndex(Database.suggestionTable.COLUMN_IMAGE);
+            try {
+                int a = cursor.getColumnIndex(Database.suggestionTable.COLUMN_SUGGESTION);
+                int b = cursor.getColumnIndex(Database.suggestionTable.COLUMN_VALUE);
+                int c = cursor.getColumnIndex(Database.suggestionTable.COLUMN_IMAGE);
 
-            //System.out.println(a + "  " + b + "   " + c);
+                System.out.println(a + "  " + b + "   " + c);
 
-            suggestionSource = cursor.getString(a);
-            timeSource = cursor.getInt(b);
-            totalTime = law.getSentence() / timeSource;
-            imageSource = cursor.getString(c);
+                suggestionSource = cursor.getString(a);
+                timeSource = cursor.getInt(b);
+                totalTime = law.getSentence() / timeSource;
+                imageSource = cursor.getString(c);
+
+
+
+            } finally {
+                System.out.println(suggestionSource);
+                System.out.println(timeSource);
+                System.out.println(totalTime);
+                System.out.println(imageSource);
+            }
 
             list.add(new SuggestionsModel(this, 0, suggestionSource, timeSource, imageSource));
 
