@@ -33,11 +33,11 @@ public class SuggestionCardAdapter extends RecyclerView.Adapter<SuggestionCardAd
     }
 
     @Override
-    public void onBindViewHolder(suggestionViewHolder contactViewHolder, int i) {
+    public void onBindViewHolder(suggestionViewHolder suggestionViewHolder, int i) {
         SuggestionsModel suggestionModel = suggestions.get(i);
-        contactViewHolder.suggestion_card_title.setText(suggestionModel.suggestion);
-        contactViewHolder.suggestionCardDescription.setText(Integer.toString(suggestionModel.time));
-        contactViewHolder.suggestionIv.setImageResource(suggestionModel.image);
+        suggestionViewHolder.suggestion_card_title.setText(suggestionModel.suggestion);
+        suggestionViewHolder.suggestionCardDescription.setText(Integer.toString(suggestionModel.time));
+        suggestionViewHolder.suggestionIv.setImageResource(suggestionModel.image);
     }
 
     public static class suggestionViewHolder extends RecyclerView.ViewHolder {

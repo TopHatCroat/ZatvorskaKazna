@@ -31,7 +31,7 @@ public class Database {
         public final static String TABLE_NAME = "suggestions";
         public final static String COLUMN_ID = "id";
         public final static String COLUMN_SUGGESTION = "suggestion";
-        public final static String COLUMN_TIME = "time";
+        public final static String COLUMN_TIME= "value";
         public final static String COLUMN_IMAGE = "image";
 
         public final static String CREATE = "CREATE TABLE " + TABLE_NAME + " ("+
@@ -42,14 +42,14 @@ public class Database {
                 ");";
 
         public final static String INSERT_SUGGESTIONS = "INSERT INTO " + TABLE_NAME + "(" + COLUMN_SUGGESTION + ", " + COLUMN_TIME + ", " + COLUMN_IMAGE + ")" +
-                " SELECT " + "'Neka pizdarija'" + " AS " + COLUMN_SUGGESTION + ", " + "'3'" + " AS " + COLUMN_TIME + ", " + "'drawable/car'" + " AS " + COLUMN_IMAGE +
-                " UNION SELECT " + "'Ferrari', " + "'36', " + "'drawable/car'" +
-                " UNION SELECT " + "'Putovanje u Ameriku', " + "'6', " + "'drawable/america'" +
-                " UNION SELECT " + "'Stan', " + "'60', " + "'drawable/apartment'" +
+                " SELECT " + "'Neka pizdarija'" + " AS " + COLUMN_SUGGESTION + ", " + "'5800'" + " AS " + COLUMN_TIME + ", " + "'drawable/car'" + " AS " + COLUMN_IMAGE +
+                " UNION SELECT " + "'Ferrari', " + "'2000000', " + "'drawable/car'" +
+                " UNION SELECT " + "'Putovanje u Ameriku', " + "'10000', " + "'drawable/america'" +
+                " UNION SELECT " + "'Stan', " + "'900000', " + "'drawable/apartment'" +
                 " UNION SELECT " + "'Novac', " + "'1', " + "'drawable/money'" +
-                " UNION SELECT " + "'iPhonček', " + "'2', " + "'drawable/phone'" +
-                " UNION SELECT " + "'Putovanje u Kinu', " + "'6', " + "'drawable/china'" +
-                " UNION SELECT " + "'Sat kao u Sanadera', " + "'12', " + "'drawable/watch'"
+                " UNION SELECT " + "'iPhonček', " + "'5000', " + "'drawable/phone'" +
+                " UNION SELECT " + "'Putovanje u Kinu', " + "'10000', " + "'drawable/china'" +
+                " UNION SELECT " + "'Sat kao u Sanadera', " + "'4000', " + "'drawable/watch'"
                 ;
     }
 }
