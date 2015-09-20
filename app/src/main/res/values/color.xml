@@ -12,5 +12,6 @@
     <color name="line_grey">#D7D7D7</color>
     <color name="light_grey">#D4D4D4</color>
     <color name="bg_light_grey">#E9E9E9</color>
+    <color name="bg_light_grey_transparent">#44E9E9E9</color>
     <color name="black">#DD000000</color>
 </resources>

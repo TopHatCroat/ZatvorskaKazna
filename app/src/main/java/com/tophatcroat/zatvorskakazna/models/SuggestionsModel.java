@@ -28,6 +28,10 @@ public class SuggestionsModel implements Parcelable {
         this.image = parent.getResources().getIdentifier(image, null, parent.getPackageName());
     }
 
+    public SuggestionsModel(Context parent, int value){
+
+    }
+
     protected SuggestionsModel(Parcel in) {
         id = in.readInt();
         suggestion = in.readString();

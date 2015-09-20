@@ -42,13 +42,25 @@ public class DBSource {
         return cursor;
     }
 
-    public Cursor getSuggestion(int id){
+    public Cursor getSuggestionById(int id){
         String whereClause = Database.suggestionTable.COLUMN_ID + " = ?";
         Cursor cursor = sqLiteDatabase.query(
                 Database.suggestionTable.TABLE_NAME,
-                new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_TIME, Database.suggestionTable.COLUMN_IMAGE},
+                new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_VALUE, Database.suggestionTable.COLUMN_IMAGE},
                 whereClause,
                 new String[] {Integer.toString(id)},
+                null, null, null);
+
+        return cursor;
+    }
+
+    public Cursor getSuggestionByValue(int value){
+        String whereClause = Database.suggestionTable.COLUMN_VALUE + " < ?";
+        Cursor cursor = sqLiteDatabase.query(
+                Database.suggestionTable.TABLE_NAME,
+                new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_VALUE, Database.suggestionTable.COLUMN_IMAGE},
+                whereClause,
+                new String[] {Integer.toString(value)},
                 null, null, null);
 
         return cursor;

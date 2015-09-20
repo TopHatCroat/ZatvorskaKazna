@@ -31,18 +31,18 @@ public class Database {
         public final static String TABLE_NAME = "suggestions";
         public final static String COLUMN_ID = "id";
         public final static String COLUMN_SUGGESTION = "suggestion";
-        public final static String COLUMN_TIME= "value";
+        public final static String COLUMN_VALUE= "value";
         public final static String COLUMN_IMAGE = "image";
 
         public final static String CREATE = "CREATE TABLE " + TABLE_NAME + " ("+
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                 COLUMN_SUGGESTION + " TEXT NOT NULL, " +
-                COLUMN_TIME + " INTEGER NOT NULL, " +
+                COLUMN_VALUE + " INTEGER NOT NULL, " +
                 COLUMN_IMAGE + " TEXT NOT NULL" +
                 ");";
 
-        public final static String INSERT_SUGGESTIONS = "INSERT INTO " + TABLE_NAME + "(" + COLUMN_SUGGESTION + ", " + COLUMN_TIME + ", " + COLUMN_IMAGE + ")" +
-                " SELECT " + "'Neka pizdarija'" + " AS " + COLUMN_SUGGESTION + ", " + "'5800'" + " AS " + COLUMN_TIME + ", " + "'drawable/car'" + " AS " + COLUMN_IMAGE +
+        public final static String INSERT_SUGGESTIONS = "INSERT INTO " + TABLE_NAME + "(" + COLUMN_SUGGESTION + ", " + COLUMN_VALUE + ", " + COLUMN_IMAGE + ")" +
+                " SELECT " + "'Neka pizdarija'" + " AS " + COLUMN_SUGGESTION + ", " + "'5800'" + " AS " + COLUMN_VALUE + ", " + "'drawable/car'" + " AS " + COLUMN_IMAGE +
                 " UNION SELECT " + "'Ferrari', " + "'2000000', " + "'drawable/car'" +
                 " UNION SELECT " + "'Putovanje u Ameriku', " + "'10000', " + "'drawable/america'" +
                 " UNION SELECT " + "'Stan', " + "'900000', " + "'drawable/apartment'" +

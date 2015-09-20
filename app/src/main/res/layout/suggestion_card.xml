@@ -25,13 +25,15 @@
         <TextView
             style="@style/large_text_view"
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:id="@+id/suggestion_card_title"
             android:gravity="bottom"
+            android:layout_margin="0dp"
+            android:padding="5dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:backgroundTint="@color/bg_light_grey" />
+            android:background="@color/bg_light_grey_transparent" />
         </RelativeLayout>
 
     <TextView

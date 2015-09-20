@@ -112,12 +112,12 @@ public class SuggestionActivity extends Activity {
 
         numOfRows = (int) dbSource.getSuggestionCount();
         randomRow = random.nextInt(numOfRows);
-        Cursor cursor = dbSource.getSuggestion(randomRow);
+        Cursor cursor = dbSource.getSuggestionById(randomRow);
         cursor.moveToFirst();
 
         if(cursor.getCount() == 1) {
             int a = cursor.getColumnIndex(Database.suggestionTable.COLUMN_SUGGESTION);
-            int b = cursor.getColumnIndex(Database.suggestionTable.COLUMN_TIME);
+            int b = cursor.getColumnIndex(Database.suggestionTable.COLUMN_VALUE);
             int c = cursor.getColumnIndex(Database.suggestionTable.COLUMN_IMAGE);
 
             //System.out.println(a + "  " + b + "   " + c);
