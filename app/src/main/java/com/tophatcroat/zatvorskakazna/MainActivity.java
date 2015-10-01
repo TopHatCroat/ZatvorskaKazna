@@ -118,14 +118,15 @@ public class MainActivity extends AppCompatActivity {
         arrayList.clear();
 
         cursor.moveToFirst();
-        int a = cursor.getColumnIndex(Database.lawTable.COLUMN_LAW);
-        int b = cursor.getColumnIndex(Database.lawTable.COLUMN_SENTENCE);
+        int a = cursor.getColumnIndex(Database.lawTable.COLUMN_ID);
+        int b = cursor.getColumnIndex(Database.lawTable.COLUMN_LAW);
+        int c = cursor.getColumnIndex(Database.lawTable.COLUMN_SENTENCE);
         while(!cursor.isAfterLast()){
+            int id = cursor.getInt(a);
+            String law = cursor.getString(b);
+            int sentence = cursor.getInt(c);
 
-            String law = cursor.getString(a);
-            int sentence = cursor.getInt(b);
-
-            arrayList.add(new LawsModel(law, sentence));
+            arrayList.add(new LawsModel(id, law, sentence));
             cursor.moveToNext();
         }
 

@@ -34,7 +34,7 @@ public class DBSource {
         String whereClause = Database.lawTable.COLUMN_LAW + " LIKE ?";
         Cursor cursor = sqLiteDatabase.query(
                 Database.lawTable.TABLE_NAME,
-                new String[] {Database.lawTable.COLUMN_LAW, Database.lawTable.COLUMN_SENTENCE},
+                new String[] {Database.lawTable.COLUMN_ID, Database.lawTable.COLUMN_LAW, Database.lawTable.COLUMN_SENTENCE},
                 whereClause,
                 new String[] {"%" + string + "%"},
                 null, null, null);
@@ -55,8 +55,8 @@ public class DBSource {
     }
 
     public Cursor getSuggestionByValue(int value){
-        System.out.println("Value: " + value);
-        String whereClause = Database.suggestionTable.COLUMN_VALUE + " < ?";
+        System.out.println("Value: " + Integer.toString(value));
+        String whereClause = Database.suggestionTable.COLUMN_VALUE + " < ? ";
         Cursor cursor = sqLiteDatabase.query(
                 Database.suggestionTable.TABLE_NAME,
                 new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_VALUE, Database.suggestionTable.COLUMN_IMAGE},
@@ -64,12 +64,8 @@ public class DBSource {
                 new String[] {Integer.toString(value)},
                 null,
                 null,
-                "RANDOM() LIMIT 1");
-
-
-        System.out.println(cursor.getString(0));
-        System.out.println(cursor.getInt(1));
-        System.out.println(cursor.getString(2));
+                "RANDOM() LIMIT 1"  );
+        System.out.println(cursor.getCount());
         return cursor;
     }
 

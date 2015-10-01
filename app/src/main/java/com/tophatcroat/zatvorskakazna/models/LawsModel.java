@@ -3,9 +3,7 @@ package com.tophatcroat.zatvorskakazna.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by antonio on 26/08/15.
- */
+
 public class LawsModel implements Parcelable{
     int id;
     String law;

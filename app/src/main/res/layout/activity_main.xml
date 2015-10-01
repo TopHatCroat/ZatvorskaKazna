@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/primary_light">
+    android:background="@color/primary_light"
+    >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -32,10 +33,7 @@
             android:layout_alignParentEnd="true"
             />
 
-
     </LinearLayout>
-
-
 
     <ListView
         android:layout_width="wrap_content"
@@ -45,5 +43,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:background="@color/bg_light_grey"
-        android:elevation="-15dp"/>
+        android:elevation="15dp"/>
 </RelativeLayout>

@@ -3,4 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="add_suggestion">Add Suggestion</string>
+    <string name="edit_pay">Your Pay</string>
 </resources>

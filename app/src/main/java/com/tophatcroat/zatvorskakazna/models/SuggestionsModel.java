@@ -15,30 +15,31 @@ import butterknife.ButterKnife;
 
 
 public class SuggestionsModel implements Parcelable {
+    int sentenceTime;
     int id;
     String suggestion;
-    int time;
+    int value;
     int image;
     int amount;
 
 
-    public SuggestionsModel(Context parent, int id, String suggestion, int time, String image){
+    public SuggestionsModel(Context parent, int id, String suggestion, int value, String image){
         this.id = id;
         this.suggestion = suggestion;
-        this.time = time;
+        this.value = value;
         this.image = parent.getResources().getIdentifier(image, null, parent.getPackageName());
     }
 
-    public SuggestionsModel(Context parent, int id, String suggestion, int time, int amount, String image){
+    public SuggestionsModel(Context parent, int id, String suggestion, int value, int amount, String image){
         this.id = id;
-        this.suggestion = generateSuggestion(suggestion, amount);
         this.amount = amount;
-        this.time = time;
+        this.sentenceTime = sentenceTime;
+        this.value = value;
         this.image = parent.getResources().getIdentifier(image, null, parent.getPackageName());
+        this.suggestion = generateSuggestion(suggestion);
     }
 
-    private String generateSuggestion(String suggestion, int amount) {
-        String s;
+    private String generateSuggestion(String suggestion) {
         return "Vrijeme koje bi proveli u pritvoru dovoljno je da si prosječan Hrvat plati " +
                 suggestion + ", " + amount + " puta!" + "\nIskoristite svoje vrijeme za nešto bolje.";
     }
@@ -50,7 +51,7 @@ public class SuggestionsModel implements Parcelable {
     protected SuggestionsModel(Parcel in) {
         id = in.readInt();
         suggestion = in.readString();
-        time = in.readInt();
+        value = in.readInt();
         image = in.readInt();
     }
 
@@ -69,7 +70,7 @@ public class SuggestionsModel implements Parcelable {
     protected void LawsModel(Parcel in){
         this.id = in.readInt();
         this.suggestion = in.readString();
-        this.time = in.readInt();
+        this.value = in.readInt();
         this.image = in.readInt();
     }
     @Override
@@ -81,7 +82,7 @@ public class SuggestionsModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(suggestion);
-        dest.writeInt(time);
+        dest.writeInt(value);
         dest.writeInt(image);
     }
 }
