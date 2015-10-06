@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.tophatcroat.zatvorskakazna.db.DBSource;
 import com.tophatcroat.zatvorskakazna.db.Database;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.tophatcroat.zatvorskakazna.R.*;
+
 public class MainActivity extends AppCompatActivity {
 
     private String TAG = "MainActivity: ";
@@ -29,16 +32,16 @@ public class MainActivity extends AppCompatActivity {
     private DBSource dbSource;
     private ArrayList<LawsModel> arrayList;
 
-    @Bind(R.id.autoCompleteTextView)
+    @Bind(id.autoCompleteTextView)
     EditText editText;
 
-    @Bind(R.id.list_view_zakoni)
+    @Bind(id.list_view_zakoni)
     ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
         ButterKnife.bind(this);                     //mislim da je
         dbSource = new DBSource(MainActivity.this); //ovo dvoje isto
 
@@ -62,35 +65,38 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        dbSource.open();
+        updateList(dbSource.filterLaws(editText.getText().toString()));
         Log.e(TAG, "onCreate called");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            dbSource.open();
-            updateList(dbSource.filterLaws(editText.getText().toString()));
-            Log.e(TAG, "onResume called");
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
+//        try {
+//            dbSource.open();
+//            updateList(dbSource.filterLaws(editText.getText().toString()));
+//            Log.e(TAG, "onResume called");
+//        } catch (SQLException e){
+//            e.printStackTrace();
+//        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        try {
-            dbSource.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            dbSource.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+            getMenuInflater().inflate(R.menu.main_activity_menu, menu);
         return true;
     }
 
@@ -99,12 +105,19 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()){
+            case (R.id.menu_item_edit_pay):
+                Toast.makeText(this, "TODO: Edit Pay", Toast.LENGTH_SHORT).show();
+                break;
+
+            case (id.menu_item_add_suggestion):
+                Toast.makeText(this, "TODO: Add Suggestion", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -129,9 +142,10 @@ public class MainActivity extends AppCompatActivity {
             arrayList.add(new LawsModel(id, law, sentence));
             cursor.moveToNext();
         }
+        cursor.close();
 
         ListAdapter adapter = new ListAdapter(MainActivity.this,
-                R.layout.list_item, arrayList);
+                layout.list_item, arrayList);
 
         listView.setAdapter(adapter);
 

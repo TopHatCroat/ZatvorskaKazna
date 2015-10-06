@@ -8,6 +8,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.ContactsContract;
 
+import java.io.IOException;
+
 
 /**
  * Created by antonio on 29/08/15.
@@ -17,13 +19,18 @@ public class DBSource {
     private DBOpenHelper dbOpenHelper;
     private Context context;
 
-    public DBSource(Context context){
+    public DBSource(Context context) {
         this.context = context;
         this.dbOpenHelper = new DBOpenHelper(context);
+        try {
+            dbOpenHelper.createDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void open() throws SQLException{
-        sqLiteDatabase = dbOpenHelper.getWritableDatabase();
+        sqLiteDatabase = dbOpenHelper.openDataBase();
     }
 
     public void close() throws SQLException{

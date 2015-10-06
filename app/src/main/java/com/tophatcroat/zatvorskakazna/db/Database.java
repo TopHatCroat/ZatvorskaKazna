@@ -5,7 +5,7 @@ public class Database {
 
     public static class lawTable{
         public final static String TABLE_NAME = "laws";
-        public final static String COLUMN_ID = "id";
+        public final static String COLUMN_ID = "_id";
         public final static String COLUMN_LAW = "law";
         public final static String COLUMN_SENTENCE = "sentence";
 
@@ -29,7 +29,7 @@ public class Database {
 
     public static class suggestionTable{
         public final static String TABLE_NAME = "suggestions";
-        public final static String COLUMN_ID = "id";
+        public final static String COLUMN_ID = "_id";
         public final static String COLUMN_SUGGESTION = "suggestion";
         public final static String COLUMN_VALUE= "value";
         public final static String COLUMN_IMAGE = "image";

@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:parentActivityName=".MainActivity"
             android:name=".ui.SuggestionActivity"
             android:label="Item Activity">
         </activity>

@@ -4,15 +4,15 @@
 
     <item
         android:id="@+id/menu_item_add_suggestion"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_menu_add"
         android:title="@string/add_suggestion"
         app:showAsAction="ifRoom|withText"
         >
     </item>
     <item
         android:id="@+id/menu_item_edit_pay"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="@string/add_suggestion"
+        android:icon="@drawable/edit_pay"
+        android:title="@string/edit_pay"
         app:showAsAction="ifRoom|withText"
         >
     </item>

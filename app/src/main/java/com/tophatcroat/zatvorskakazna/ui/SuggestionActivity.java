@@ -6,12 +6,13 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.app.ActionBar;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -36,6 +37,8 @@ public class SuggestionActivity extends AppCompatActivity {
 
     private static final String PREFERENCES_NAME = "prefs";
     private static final String AVERAGE_PAY_PREF = "averagePay";
+    private static final String SAVED_SUBTITLE_VISIBLE = "subtitles";
+    private boolean subtitleShown;
     private String TAG = "Suggestion Activity: ";
     private LawsModel law;
     private DBSource dbSource;
@@ -86,6 +89,10 @@ public class SuggestionActivity extends AppCompatActivity {
         actionBar = getActionBar();
         //actionBar.setDisplayHomeAsUpEnabled(true); //display the back button
 
+        if(savedInstanceState != null){ //if savedInstanceState exists get the data from it
+            subtitleShown = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
+        }
+
     }
 
     @Override
@@ -109,12 +116,34 @@ public class SuggestionActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) { //code for going back from activity
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) { //put shit into saved instance state
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putBoolean(SAVED_SUBTITLE_VISIBLE, subtitleShown);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.suggestion_activity_menu, menu);
+
+        MenuItem subtitleItem = menu.findItem(R.id.menu_item_subtitle);
+        if(subtitleShown){
+            subtitleItem.setTitle(R.string.remove_subtitles);
+        } else {
+            subtitleItem.setTitle(R.string.add_subtitles);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case (R.id.menu_item_subtitle):
+                subtitleShown = !subtitleShown;
+                this.invalidateOptionsMenu(); //triggers onCreateOptionsMenu()
+                if(subtitleShown) this.getSupportActionBar().setSubtitle("Detaljni prikaz i prijedlog");
+                else this.getSupportActionBar().setSubtitle(null);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -128,6 +157,8 @@ public class SuggestionActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
 
     private List<SuggestionsModel> fillData(){
         //LinearLayout item = (LinearLayout)findViewById(R.id.suggestion_card_view);
@@ -167,6 +198,7 @@ public class SuggestionActivity extends AppCompatActivity {
             list.add(new SuggestionsModel(this, 0, suggestionSource, timeSource, totalAmount, imageSource));
         }
         else Log.e(TAG, "no suggestions found");
+        cursor.close();
 
         return list;
     }
