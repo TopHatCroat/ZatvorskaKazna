@@ -10,16 +10,30 @@
         android:layout_width="fill_parent"
         android:layout_height="80dp"
         android:id="@+id/law_tv_suggestion"
+        android:padding="15dp"
+        android:elevation="10dp"
+        android:layout_margin="0dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/primary_light"
         />
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:background="@color/white"
-        android:elevation="5dp"
-        android:layout_margin="7dp">
+        android:elevation="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp">
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="5dp"
+            android:id="@+id/prettey_line"
+            android:background="@color/primary">
 
-        <LinearLayout
+        </View>
+
+
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="30dp"
             android:orientation="horizontal"
@@ -29,7 +43,9 @@
                 android:layout_height="20dp"
                 android:layout_margin="5dp"
                 android:id="@+id/suggestion_tv_title"
-                android:gravity="start|left"/>
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                />
 
             <TextView
                 android:layout_margin="5dp"
@@ -37,19 +53,25 @@
                 android:id="@+id/suggestion_tv_counter"
                 android:layout_height="20dp"
                 android:gravity="end|right"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/linearLayoutArticles"
+            android:id="@+id/article_SV">
         <TextView
             style="@style/normal_text_view"
             android:layout_width="fill_parent"
-            android:layout_height="190dp"
-            android:layout_below="@+id/linearLayoutArticles"
+            android:layout_height="fill_parent"
+            android:clickable="true"
             android:id="@+id/suggestion_tv"
             />
-
+        </ScrollView>
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

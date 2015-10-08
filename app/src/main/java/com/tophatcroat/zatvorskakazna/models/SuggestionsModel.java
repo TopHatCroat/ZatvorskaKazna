@@ -44,10 +44,6 @@ public class SuggestionsModel implements Parcelable {
                 suggestion + ", " + amount + " puta!" + "\nIskoristite svoje vrijeme za nešto bolje.";
     }
 
-    public SuggestionsModel(Context parent, int value){
-
-    }
-
     protected SuggestionsModel(Parcel in) {
         id = in.readInt();
         suggestion = in.readString();

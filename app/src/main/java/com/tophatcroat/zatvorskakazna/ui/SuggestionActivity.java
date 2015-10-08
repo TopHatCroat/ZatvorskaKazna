@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.tophatcroat.zatvorskakazna.R;
@@ -65,6 +66,8 @@ public class SuggestionActivity extends AppCompatActivity {
     TextView suggestionTVCounter;
     @Bind(R.id.suggestion_tv_title)
     TextView suggestionTVTitle;
+    @Bind(R.id.article_SV)
+    ScrollView articleSV;
 
     private int totalAmount;
 
@@ -94,7 +97,9 @@ public class SuggestionActivity extends AppCompatActivity {
 
 
         setTitle("Detaljni prikaz i prijedlog");
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
+        actionBar.setElevation(3f);
+
         //actionBar.setDisplayHomeAsUpEnabled(true); //display the back button
 
         if(savedInstanceState != null){ //if savedInstanceState exists get the data from it
@@ -173,6 +178,17 @@ public class SuggestionActivity extends AppCompatActivity {
         //View child = getLayoutInflater().inflate(R.layout.suggestion_activity, null);
         List<SuggestionsModel> list = new ArrayList<SuggestionsModel>();
 
+        int size = law.getLaw().length();
+
+        Log.i("STRING SIZE: ", String.valueOf(size));
+
+        if(size > 35) lawTVSuggestion.setTextSize(20f);
+        if(size > 70) lawTVSuggestion.setTextSize(16f);
+        if(size > 100) lawTVSuggestion.setTextSize(12f);
+
+
+
+
         lawTVSuggestion.setText(law.getLaw());
 
 //        numOfRows = (int) dbSource.getSuggestionCount();
@@ -235,10 +251,9 @@ public class SuggestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 textAnimation.stopAnimation();
-                Log.i("SUGGESTION: ", "Clicked");
+                articleSV.fullScroll(View.FOCUS_UP);
             }
         });
-
         cursor.close();
 
         return list;
