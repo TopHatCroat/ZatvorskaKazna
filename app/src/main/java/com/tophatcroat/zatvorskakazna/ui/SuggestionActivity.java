@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.tophatcroat.zatvorskakazna.R;
@@ -42,15 +43,17 @@ public class SuggestionActivity extends AppCompatActivity {
     private String TAG = "Suggestion Activity: ";
     private LawsModel law;
     private DBSource dbSource;
-    int numOfRows;
-    int randomRow;
     int timeSource;
     int totalTime;
     int averagePayNum;
     String suggestionSource;
     String imageSource;
+    int lawNumber;
+    String lawDescription;
+    String link;
     SharedPreferences sharedPreferences;
     ActionBar actionBar;
+    TextAnimation textAnimation;
 
     Random random;
 
@@ -58,6 +61,11 @@ public class SuggestionActivity extends AppCompatActivity {
     TextView lawTVSuggestion;
     @Bind(R.id.suggestion_tv)
     TextView suggestion;
+    @Bind(R.id.suggestion_tv_counter)
+    TextView suggestionTVCounter;
+    @Bind(R.id.suggestion_tv_title)
+    TextView suggestionTVTitle;
+
     private int totalAmount;
 
     @Override
@@ -85,7 +93,7 @@ public class SuggestionActivity extends AppCompatActivity {
         law = (LawsModel) getIntent().getParcelableExtra("Law");
 
 
-        setTitle(law.getLaw());
+        setTitle("Detaljni prikaz i prijedlog");
         actionBar = getActionBar();
         //actionBar.setDisplayHomeAsUpEnabled(true); //display the back button
 
@@ -142,7 +150,7 @@ public class SuggestionActivity extends AppCompatActivity {
             case (R.id.menu_item_subtitle):
                 subtitleShown = !subtitleShown;
                 this.invalidateOptionsMenu(); //triggers onCreateOptionsMenu()
-                if(subtitleShown) this.getSupportActionBar().setSubtitle("Detaljni prikaz i prijedlog");
+                if(subtitleShown) this.getSupportActionBar().setSubtitle("Hide Me!");
                 else this.getSupportActionBar().setSubtitle(null);
         }
         return super.onOptionsItemSelected(item);
@@ -165,7 +173,7 @@ public class SuggestionActivity extends AppCompatActivity {
         //View child = getLayoutInflater().inflate(R.layout.suggestion_activity, null);
         List<SuggestionsModel> list = new ArrayList<SuggestionsModel>();
 
-        lawTVSuggestion.setText(Integer.toString(law.getSentence()));
+        lawTVSuggestion.setText(law.getLaw());
 
 //        numOfRows = (int) dbSource.getSuggestionCount();
 //        randomRow = random.nextInt(numOfRows);
@@ -174,7 +182,7 @@ public class SuggestionActivity extends AppCompatActivity {
 
         Cursor cursor = dbSource.getSuggestionByValue(law.getSentence()*averagePayNum); //multiply sentence num. of months with average pay
         cursor.moveToFirst();
-        if(cursor.getCount() == 1) {
+        if(cursor.getCount() == 1) { //useless checking, this is done in SQL querry
             try {
                 int a = cursor.getColumnIndex(Database.suggestionTable.COLUMN_SUGGESTION);
                 int b = cursor.getColumnIndex(Database.suggestionTable.COLUMN_VALUE);
@@ -197,7 +205,40 @@ public class SuggestionActivity extends AppCompatActivity {
             }
             list.add(new SuggestionsModel(this, 0, suggestionSource, timeSource, totalAmount, imageSource));
         }
-        else Log.e(TAG, "no suggestions found");
+        else Log.e(TAG, "error while looking for suggestions");
+
+        cursor = dbSource.getAboutLawsByID(law.getId());
+        cursor.moveToFirst();
+
+        ArrayList<String> s = new ArrayList<String>();
+
+        while(!cursor.isAfterLast()){
+            int a = cursor.getColumnIndex(Database.aboutLawsTable.COLUMN_ARTICLE_NUM);
+            int b = cursor.getColumnIndex(Database.aboutLawsTable.COLUMN_ARTICLE_BODY);
+            int c = cursor.getColumnIndex(Database.aboutLawsTable.COLUMN_LINK);
+
+//            lawNumber = cursor.getInt(a);
+//            lawDescription = cursor.getString(b);
+//            link = cursor.getString(c);
+//            suggestion.setText(lawDescription);
+
+            s.add(cursor.getString(b));
+
+            cursor.moveToNext();
+
+        }
+
+        textAnimation = new TextAnimation(suggestion, suggestionTVTitle, suggestionTVCounter, s);
+        textAnimation.startAnimation();
+
+        suggestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textAnimation.stopAnimation();
+                Log.i("SUGGESTION: ", "Clicked");
+            }
+        });
+
         cursor.close();
 
         return list;

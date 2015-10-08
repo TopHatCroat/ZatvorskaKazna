@@ -27,6 +27,14 @@ public class Database {
                 ;
     }
 
+    public static class aboutLawsTable{
+        public final static String TABLE_NAME = "aboutLaws";
+        public final static String COLUMN_ARTICLE_NUM = "articleNum";
+        public final static String COLUMN_LINK = "link";
+        public final static String COLUMN_ARTICLE_BODY = "articleBody";
+        public final static String COLUMN_LAWS_ID = "lawID";
+    }
+
     public static class suggestionTable{
         public final static String TABLE_NAME = "suggestions";
         public final static String COLUMN_ID = "_id";

@@ -81,4 +81,15 @@ public class DBSource {
 
         return DatabaseUtils.queryNumEntries(sqLiteDatabase, Database.suggestionTable.TABLE_NAME, null, null);
     }
+
+    public Cursor getAboutLawsByID(int id){
+        String whereClause = Database.aboutLawsTable.COLUMN_LAWS_ID + " = ? ";
+        Cursor cursor = sqLiteDatabase.query(
+                Database.aboutLawsTable.TABLE_NAME,
+                new String[] {Database.aboutLawsTable.COLUMN_ARTICLE_NUM, Database.aboutLawsTable.COLUMN_ARTICLE_BODY, Database.aboutLawsTable.COLUMN_LINK},
+                whereClause,
+                new String[] {Integer.toString(id)},
+                null, null, null);
+        return cursor;
+    }
 }

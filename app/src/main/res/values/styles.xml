@@ -9,6 +9,13 @@
         <item name="colorControlNormal">@color/white</item>
     </style>
 
+    <style name="huge_text_view">
+        <item name="android:textSize">@dimen/text_huge</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
     <style name="large_text_view">
         <item name="android:textSize">@dimen/text_large</item>
         <item name="android:layout_margin">4dp</item>
