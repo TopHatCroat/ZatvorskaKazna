@@ -5,20 +5,13 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.ContactsContract;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by antonio on 26/08/15.
- */
 public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "zatvorskaKazna.db";
     public static final int DATABASE_VERSION = 1;
@@ -33,36 +26,13 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i("onCreate", "CALLED");
-//        db.beginTransaction();
-//        try {
-//            Log.i("onCreate", "TRYING");
-//
-//            db.execSQL(Database.lawTable.CREATE);
-//            db.execSQL(Database.lawTable.INSERT_LAWS);
-//            db.execSQL(Database.suggestionTable.CREATE);
-//            db.execSQL(Database.suggestionTable.INSERT_SUGGESTIONS);
-//            db.setTransactionSuccessful();
-//            Log.i("onCreate", "SUCCESS");
-//
-//        } finally {
-//            db.endTransaction();
-//        }
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        db.execSQL("DROP TABLE IF EXISTS " + Database.lawTable.TABLE_NAME);
-//        db.execSQL("DROP TABLE IF EXISTS " + Database.suggestionTable.TABLE_NAME);
-//        onCreate(db);
-    }
 
-//    public List<LawsModel> read(String search){
-////        List<lawsModel> recordsList = new ArrayList<lawsModel>();
-////
-////        String QUERRY = "SELECT " + Database.lawTable.COLUMN_LAW + " FROM " + Database.lawTable.TABLE_NAME +
-////                " WHERE ";
-////    }
+    }
 
 
     /**
@@ -70,16 +40,14 @@ public class DBOpenHelper extends SQLiteOpenHelper {
      * directory when first time application launched
      **/
     public void createDataBase() throws IOException {
-        Log.i("createDatabase", "CALLED");
         boolean mDataBaseExist = checkDataBase();
-        System.out.println("mDatabaseExists: " + mDataBaseExist);
         if (!mDataBaseExist) {
             this.getReadableDatabase();
             try {
                 copyDataBase();
             } catch (IOException mIOException) {
                 mIOException.printStackTrace();
-                throw new Error("Error copying database");
+                throw new Error("Error creating database");
             } finally {
                 this.close();
             }

@@ -40,6 +40,9 @@ public class SuggestionActivity extends AppCompatActivity {
     private static final String PREFERENCES_NAME = "prefs";
     private static final String AVERAGE_PAY_PREF = "averagePay";
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitles";
+    public static final String CURRENT_SUGGESTION_ID = "current_suggestionID";
+    public static final String CURRENT_ARTICLE_NUM = "current_article_num";
+
     private boolean subtitleShown;
     private String TAG = "Suggestion Activity: ";
     private LawsModel law;
@@ -49,14 +52,13 @@ public class SuggestionActivity extends AppCompatActivity {
     int averagePayNum;
     String suggestionSource;
     String imageSource;
-    int lawNumber;
-    String lawDescription;
-    String link;
+    int currentSuggestionID;
     SharedPreferences sharedPreferences;
     ActionBar actionBar;
     TextAnimation textAnimation;
-
     Random random;
+    private int totalAmount;
+
 
     @Bind(R.id.law_tv_suggestion)
     TextView lawTVSuggestion;
@@ -68,8 +70,6 @@ public class SuggestionActivity extends AppCompatActivity {
     TextView suggestionTVTitle;
     @Bind(R.id.article_SV)
     ScrollView articleSV;
-
-    private int totalAmount;
 
     @Override
     public Intent getIntent() {
@@ -95,7 +95,6 @@ public class SuggestionActivity extends AppCompatActivity {
         random = new Random();
         law = (LawsModel) getIntent().getParcelableExtra("Law");
 
-
         setTitle("Detaljni prikaz i prijedlog");
         actionBar = getSupportActionBar();
         actionBar.setElevation(3f);
@@ -106,6 +105,7 @@ public class SuggestionActivity extends AppCompatActivity {
             subtitleShown = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
         }
 
+        fillData();
     }
 
     @Override
@@ -124,7 +124,7 @@ public class SuggestionActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
 
-        SuggestionCardAdapter suggestionCardAdapter = new SuggestionCardAdapter(fillData());
+        SuggestionCardAdapter suggestionCardAdapter = new SuggestionCardAdapter(makeSuggestion());
         recList.setAdapter(suggestionCardAdapter);
     }
 
@@ -132,6 +132,8 @@ public class SuggestionActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) { //put shit into saved instance state
         super.onSaveInstanceState(outState, outPersistentState);
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, subtitleShown);
+        outState.putInt(CURRENT_ARTICLE_NUM, textAnimation.position);
+        outState.putInt(CURRENT_SUGGESTION_ID, currentSuggestionID);
     }
 
 
@@ -171,46 +173,68 @@ public class SuggestionActivity extends AppCompatActivity {
         }
     }
 
-
-
-    private List<SuggestionsModel> fillData(){
-        //LinearLayout item = (LinearLayout)findViewById(R.id.suggestion_card_view);
-        //View child = getLayoutInflater().inflate(R.layout.suggestion_activity, null);
-        List<SuggestionsModel> list = new ArrayList<SuggestionsModel>();
-
+    private void fillData() {
+        //sets text size in title by the lenght of the law title string
         int size = law.getLaw().length();
-
         Log.i("STRING SIZE: ", String.valueOf(size));
-
-        if(size > 35) lawTVSuggestion.setTextSize(20f);
-        if(size > 70) lawTVSuggestion.setTextSize(16f);
-        if(size > 100) lawTVSuggestion.setTextSize(12f);
-
-
-
-
+        if (size > 35) lawTVSuggestion.setTextSize(20f);
+        if (size > 70) lawTVSuggestion.setTextSize(16f);
+        if (size > 100) lawTVSuggestion.setTextSize(12f);
         lawTVSuggestion.setText(law.getLaw());
 
-//        numOfRows = (int) dbSource.getSuggestionCount();
-//        randomRow = random.nextInt(numOfRows);
-//        Cursor cursor = dbSource.getSuggestionById(randomRow);
-//        cursor.moveToFirst();
+        //filling article description text and sending it for animation
+        Cursor cursor = dbSource.getAboutLawsByID(law.getId());
+        cursor.moveToFirst();
 
-        Cursor cursor = dbSource.getSuggestionByValue(law.getSentence()*averagePayNum); //multiply sentence num. of months with average pay
+        while (!cursor.isAfterLast()) {
+            int a = cursor.getColumnIndex(Database.aboutLawsTable.COLUMN_ARTICLE_BODY);
+            int b = cursor.getColumnIndex(Database.aboutLawsTable.COLUMN_LAWS_ID);
+            int c = cursor.getColumnIndex(Database.aboutLawsTable.COLUMN_SENTENCE);
+
+            law.addArticle(cursor.getString(a));
+            law.addSentence(cursor.getInt(c));
+
+            cursor.moveToNext();
+        }
+
+        //sending to animation
+        textAnimation = new TextAnimation(suggestion, suggestionTVTitle, suggestionTVCounter, law);
+
+        textAnimation.startAnimation();
+        suggestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textAnimation.stopAnimation();
+                articleSV.fullScroll(View.FOCUS_UP);
+                makeSuggestion();
+            }
+        });
+
+        cursor.close();
+    }
+
+
+    private List<SuggestionsModel> makeSuggestion(){
+        //create a Suggestion card for the article description
+        List<SuggestionsModel> suggestionsModels = new ArrayList<SuggestionsModel>();
+        //get the suggestion form DB, querry randomises suggestions
+        Cursor cursor = dbSource.getSuggestionByValue(law.sentences.get(textAnimation.position)*averagePayNum); //multiply sentence num. of months with average pay
+
         cursor.moveToFirst();
         if(cursor.getCount() == 1) { //useless checking, this is done in SQL querry
             try {
                 int a = cursor.getColumnIndex(Database.suggestionTable.COLUMN_SUGGESTION);
                 int b = cursor.getColumnIndex(Database.suggestionTable.COLUMN_VALUE);
                 int c = cursor.getColumnIndex(Database.suggestionTable.COLUMN_IMAGE);
-
-                System.out.println(a + "  " + b + "   " + c);
+                int d = cursor.getColumnIndex(Database.suggestionTable.COLUMN_ID);
 
                 suggestionSource = cursor.getString(a);
                 timeSource = cursor.getInt(b);
-                totalTime = law.getSentence();
+                totalTime = law.sentences.get(textAnimation.position);
                 imageSource = cursor.getString(c);
                 totalAmount = totalTime*averagePayNum/timeSource;
+
+                currentSuggestionID = cursor.getInt(d);
 
             } catch (Exception e) {
                 System.out.println(e);
@@ -219,43 +243,11 @@ public class SuggestionActivity extends AppCompatActivity {
                 System.out.println(totalTime);
                 System.out.println(imageSource);
             }
-            list.add(new SuggestionsModel(this, 0, suggestionSource, timeSource, totalAmount, imageSource));
+            suggestionsModels.add(new SuggestionsModel(this, 0, suggestionSource, timeSource, totalAmount, imageSource));
         }
         else Log.e(TAG, "error while looking for suggestions");
 
-        cursor = dbSource.getAboutLawsByID(law.getId());
-        cursor.moveToFirst();
-
-        ArrayList<String> s = new ArrayList<String>();
-
-        while(!cursor.isAfterLast()){
-            int a = cursor.getColumnIndex(Database.aboutLawsTable.COLUMN_ARTICLE_NUM);
-            int b = cursor.getColumnIndex(Database.aboutLawsTable.COLUMN_ARTICLE_BODY);
-            int c = cursor.getColumnIndex(Database.aboutLawsTable.COLUMN_LINK);
-
-//            lawNumber = cursor.getInt(a);
-//            lawDescription = cursor.getString(b);
-//            link = cursor.getString(c);
-//            suggestion.setText(lawDescription);
-
-            s.add(cursor.getString(b));
-
-            cursor.moveToNext();
-
-        }
-
-        textAnimation = new TextAnimation(suggestion, suggestionTVTitle, suggestionTVCounter, s);
-        textAnimation.startAnimation();
-
-        suggestion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textAnimation.stopAnimation();
-                articleSV.fullScroll(View.FOCUS_UP);
-            }
-        });
         cursor.close();
-
-        return list;
+        return suggestionsModels;
     }
 }

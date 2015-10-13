@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 import static com.tophatcroat.zatvorskakazna.R.*;
 
 public class MainActivity extends AppCompatActivity {
-
     private String TAG = "MainActivity: ";
 
     private DBSource dbSource;
@@ -50,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-
             }
 
             @Override
@@ -62,13 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
         dbSource.open();
         updateList(dbSource.filterLaws(editText.getText().toString()));
-        Log.e(TAG, "onCreate called");
     }
 
     @Override
@@ -95,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
             getMenuInflater().inflate(R.menu.main_activity_menu, menu);
         return true;
     }
@@ -115,10 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
         }
-
-        //noinspection SimplifiableIfStatement
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -133,13 +123,13 @@ public class MainActivity extends AppCompatActivity {
         cursor.moveToFirst();
         int a = cursor.getColumnIndex(Database.lawTable.COLUMN_ID);
         int b = cursor.getColumnIndex(Database.lawTable.COLUMN_LAW);
-        int c = cursor.getColumnIndex(Database.lawTable.COLUMN_SENTENCE);
+        int c = cursor.getColumnIndex(Database.lawTable.COLUMN_ARTICLE_NUM);
         while(!cursor.isAfterLast()){
             int id = cursor.getInt(a);
             String law = cursor.getString(b);
-            int sentence = cursor.getInt(c);
+            int articleNum = cursor.getInt(c);
 
-            arrayList.add(new LawsModel(id, law, sentence));
+            arrayList.add(new LawsModel(id, law, articleNum));
             cursor.moveToNext();
         }
         cursor.close();

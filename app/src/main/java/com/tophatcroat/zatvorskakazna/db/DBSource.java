@@ -11,9 +11,6 @@ import android.provider.ContactsContract;
 import java.io.IOException;
 
 
-/**
- * Created by antonio on 29/08/15.
- */
 public class DBSource {
     private SQLiteDatabase sqLiteDatabase;
     private DBOpenHelper dbOpenHelper;
@@ -22,6 +19,7 @@ public class DBSource {
     public DBSource(Context context) {
         this.context = context;
         this.dbOpenHelper = new DBOpenHelper(context);
+
         try {
             dbOpenHelper.createDataBase();
         } catch (IOException e) {
@@ -41,7 +39,7 @@ public class DBSource {
         String whereClause = Database.lawTable.COLUMN_LAW + " LIKE ?";
         Cursor cursor = sqLiteDatabase.query(
                 Database.lawTable.TABLE_NAME,
-                new String[] {Database.lawTable.COLUMN_ID, Database.lawTable.COLUMN_LAW, Database.lawTable.COLUMN_SENTENCE},
+                new String[] {Database.lawTable.COLUMN_ID, Database.lawTable.COLUMN_LAW, Database.lawTable.COLUMN_ARTICLE_NUM},
                 whereClause,
                 new String[] {"%" + string + "%"},
                 null, null, null);
@@ -53,7 +51,8 @@ public class DBSource {
         String whereClause = Database.suggestionTable.COLUMN_ID + " = ?";
         Cursor cursor = sqLiteDatabase.query(
                 Database.suggestionTable.TABLE_NAME,
-                new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_VALUE, Database.suggestionTable.COLUMN_IMAGE},
+                new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_VALUE,
+                        Database.suggestionTable.COLUMN_IMAGE},
                 whereClause,
                 new String[] {Integer.toString(id)},
                 null, null, null);
@@ -66,7 +65,8 @@ public class DBSource {
         String whereClause = Database.suggestionTable.COLUMN_VALUE + " < ? ";
         Cursor cursor = sqLiteDatabase.query(
                 Database.suggestionTable.TABLE_NAME,
-                new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_VALUE, Database.suggestionTable.COLUMN_IMAGE},
+                new String[] {Database.suggestionTable.COLUMN_SUGGESTION, Database.suggestionTable.COLUMN_VALUE,
+                        Database.suggestionTable.COLUMN_IMAGE, Database.suggestionTable.COLUMN_ID},
                 whereClause,
                 new String[] {Integer.toString(value)},
                 null,
@@ -86,10 +86,12 @@ public class DBSource {
         String whereClause = Database.aboutLawsTable.COLUMN_LAWS_ID + " = ? ";
         Cursor cursor = sqLiteDatabase.query(
                 Database.aboutLawsTable.TABLE_NAME,
-                new String[] {Database.aboutLawsTable.COLUMN_ARTICLE_NUM, Database.aboutLawsTable.COLUMN_ARTICLE_BODY, Database.aboutLawsTable.COLUMN_LINK},
+                new String[] {Database.aboutLawsTable.COLUMN_ARTICLE_BODY, Database.aboutLawsTable.COLUMN_LAWS_ID,
+                        Database.aboutLawsTable.COLUMN_SENTENCE},
                 whereClause,
                 new String[] {Integer.toString(id)},
-                null, null, null);
+                null, null,
+                Database.aboutLawsTable.COLUMN_ID);
         return cursor;
     }
 }

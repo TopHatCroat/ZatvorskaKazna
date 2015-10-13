@@ -2,29 +2,34 @@ package com.tophatcroat.zatvorskakazna.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 
 public class LawsModel implements Parcelable{
     int id;
     String law;
-    int sentence;
+    int articleNum;
+    public ArrayList<String> articles;
+    public ArrayList<Integer> sentences;
 
-    public LawsModel(int id, String law, int sentence){
+    public LawsModel(int id, String law, int articleNum){
         this.id = id;
         this.law = law;
-        this.sentence = sentence;
+        this.articleNum = articleNum;
     }
 
-    public LawsModel(String law, int sentence){
+    public LawsModel(String law, int articleNum){
         this.id = 0;
         this.law = law;
-        this.sentence = sentence;
+        this.articleNum = articleNum;
     }
 
     protected LawsModel(Parcel in) {
         id = in.readInt();
         law = in.readString();
-        sentence = in.readInt();
+        articleNum = in.readInt();
     }
 
     public static final Creator<LawsModel> CREATOR = new Creator<LawsModel>() {
@@ -47,8 +52,8 @@ public class LawsModel implements Parcelable{
         this.id = id;
     }
 
-    public void setSentence(int sentence) {
-        this.sentence = sentence;
+    public void setArticleNum(int articleNum) {
+        this.articleNum = articleNum;
     }
 
     public void setLaw(String law) {
@@ -59,9 +64,7 @@ public class LawsModel implements Parcelable{
         return law;
     }
 
-    public int getSentence() {
-        return sentence;
-    }
+    public int getArticleNum() {return articleNum;}
 
     @Override
     public int describeContents() {
@@ -72,6 +75,20 @@ public class LawsModel implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(law);
-        dest.writeInt(sentence);
+        dest.writeInt(articleNum);
+    }
+
+    public void addArticle(String article){
+        if (articles == null) {
+            articles = new ArrayList<>();
+        }
+        articles.add(article);
+    }
+
+    public void addSentence(int sentence){
+        if (sentences == null) {
+            sentences = new ArrayList<>();
+        }
+        sentences.add(sentence);
     }
 }

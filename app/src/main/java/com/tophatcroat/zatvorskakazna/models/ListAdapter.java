@@ -13,9 +13,6 @@ import com.tophatcroat.zatvorskakazna.ui.SuggestionActivity;
 
 import java.util.ArrayList;
 
-/**
- * Created by antonio on 30/08/15.
- */
 public class ListAdapter extends ArrayAdapter<LawsModel> {
     private Context context;
 
@@ -43,14 +40,15 @@ public class ListAdapter extends ArrayAdapter<LawsModel> {
 
         if(p != null) {
             TextView lawsTV =  (TextView) v.findViewById(R.id.law_text_view);
-            //TextView sentenceTV =  (TextView) v.findViewById(R.id.sentence_text_view);
+            TextView articleTV =  (TextView) v.findViewById(R.id.law_article_view);
 
             if(lawsTV != null){
                 lawsTV.setText(p.getLaw());
+
             }
-//            if(sentenceTV != null){
-//                sentenceTV.setText(Integer.toString(p.getSentence()));
-//            }
+            if(articleTV != null){
+                articleTV.setText("Članak " + p.getArticleNum() + ".");
+            }
         }
 
         v.setOnClickListener(new View.OnClickListener() {
