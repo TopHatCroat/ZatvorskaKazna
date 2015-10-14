@@ -105,7 +105,7 @@ public class SuggestionActivity extends AppCompatActivity {
             subtitleShown = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
         }
 
-        fillData();
+
     }
 
     @Override
@@ -124,6 +124,7 @@ public class SuggestionActivity extends AppCompatActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
 
+        fillData();
         SuggestionCardAdapter suggestionCardAdapter = new SuggestionCardAdapter(makeSuggestion());
         recList.setAdapter(suggestionCardAdapter);
     }
@@ -206,7 +207,6 @@ public class SuggestionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 textAnimation.stopAnimation();
                 articleSV.fullScroll(View.FOCUS_UP);
-                makeSuggestion();
             }
         });
 
